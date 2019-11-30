@@ -40,10 +40,10 @@ libpng-devel \
 libjpeg-devel \
 freetype-devel \
 libmcrypt-devel \
-openssh-server && \ 
-#
+openssh-server 
+
 # make temp folder
-mkdir -p /home/nginx-php && \
+RUN mkdir -p /home/nginx-php && \
 # install nginx
 curl -Lk https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | gunzip | tar x -C /home/nginx-php && \
 # RUN curl -Lk http://172.17.0.1/download/nginx-$NGINX_VERSION.tar.gz | gunzip | tar x -C /home/nginx-php && \
@@ -63,16 +63,17 @@ make && make install && \
 # add user
 useradd -r -s /sbin/nologin -d ${NGX_WWW_ROOT} -m -k no www && \
 # ln nginx
-cd ${PRO_SERVER_PATH} && ln -s /usr/local/nginx/conf nginx && \
-curl -Lk https://github.com/kkos/oniguruma/releases/download/v6.9.4/onig-6.9.4.tar.gz | gunzip | tar x -C /home/nginx-php && \
+cd ${PRO_SERVER_PATH} && ln -s /usr/local/nginx/conf nginx
+
+RUN curl -Lk https://github.com/kkos/oniguruma/releases/download/v6.9.4/onig-6.9.4.tar.gz | gunzip | tar x -C /home/nginx-php && \
 cd /home/nginx-php/onig-6.9.4 && \
 autoreconf -vfi && \
 ./configure && \
 make && make install && \
-#export ONIG_CFLAGS="-I/usr/local/include" ONIG_LIBS="-L/usr/local/lib -lonig" && \
-#
+export ONIG_CFLAGS="-I/usr/local/include" ONIG_LIBS="-L/usr/local/lib -lonig" && \
+
 # install php
-curl -Lk https://php.net/distributions/php-$PHP_VERSION.tar.gz | gunzip | tar x -C /home/nginx-php && \
+RUN curl -Lk https://php.net/distributions/php-$PHP_VERSION.tar.gz | gunzip | tar x -C /home/nginx-php && \
 # curl -Lk http://172.17.0.1/distributions/php-$PHP_VERSION.tar.gz | gunzip | tar x -C /home/nginx-php && \
 cd /home/nginx-php/php-$PHP_VERSION && \  
 ./configure --prefix=/usr/local/php \
@@ -116,17 +117,17 @@ cd /home/nginx-php/php-$PHP_VERSION && \
 --without-pear \
 --without-libzip \
 --enable-zip && \
-make && make install && \
-#
+make && make install
+
 # install php-fpm
-cd /home/nginx-php/php-$PHP_VERSION && \
+RUN cd /home/nginx-php/php-$PHP_VERSION && \
 cp php.ini-production /usr/local/php/etc/php.ini && \
 cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf && \
 cp /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf && \
 rm -rf /home/nginx-php && \
-#
+
 # remove temp folder
-rm -rf /home/nginx-php && \
+RUN rm -rf /home/nginx-php && \
 #
 # clean os
 # RUN yum remove -y gcc \
