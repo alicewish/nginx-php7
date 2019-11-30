@@ -70,7 +70,7 @@ cd /home/nginx-php/onig-6.9.4 && \
 autoreconf -vfi && \
 ./configure && \
 make && make install && \
-export ONIG_CFLAGS="-I/usr/local/include" ONIG_LIBS="-L/usr/local/lib -lonig" && \
+export ONIG_CFLAGS="-I/usr/local/include" ONIG_LIBS="-L/usr/local/lib -lonig"
 
 # install php
 RUN curl -Lk https://php.net/distributions/php-$PHP_VERSION.tar.gz | gunzip | tar x -C /home/nginx-php && \
