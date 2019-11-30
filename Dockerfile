@@ -32,7 +32,6 @@ openssl \
 openssl-devel \
 pcre-devel \
 sqlite-devel \
-oniguruma \
 libxml2 \
 libxml2-devel \
 libcurl \
@@ -65,6 +64,12 @@ make && make install && \
 useradd -r -s /sbin/nologin -d ${NGX_WWW_ROOT} -m -k no www && \
 # ln nginx
 cd ${PRO_SERVER_PATH} && ln -s /usr/local/nginx/conf nginx && \
+curl -Lk https://github.com/kkos/oniguruma/releases/download/v6.9.4/onig-6.9.4.tar.gz | gunzip | tar x -C /home/nginx-php && \
+cd /home/nginx-php/onig-6.9.4 && \
+autoreconf -vfi && \
+./configure && \
+make && make install && \
+#export ONIG_CFLAGS="-I/usr/local/include" ONIG_LIBS="-L/usr/local/lib -lonig" && \
 #
 # install php
 curl -Lk https://php.net/distributions/php-$PHP_VERSION.tar.gz | gunzip | tar x -C /home/nginx-php && \
