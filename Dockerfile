@@ -32,6 +32,7 @@ openssl \
 openssl-devel \
 pcre-devel \
 sqlite-devel \
+oniguruma \
 libxml2 \
 libxml2-devel \
 libcurl \
@@ -41,7 +42,6 @@ libjpeg-devel \
 freetype-devel \
 libmcrypt-devel \
 openssh-server && \ 
-oniguruma && \
 #
 # make temp folder
 mkdir -p /home/nginx-php && \
